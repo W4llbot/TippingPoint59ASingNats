@@ -36,6 +36,7 @@
 
 #include "api.h"
 #include "globals.hpp"
+#include "mech_lib.hpp"
 
 /**
  * You should add more #includes here

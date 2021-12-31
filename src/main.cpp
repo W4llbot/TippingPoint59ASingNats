@@ -1,28 +1,31 @@
 #include "main.h"
 
 /**
- * A callback function for LLEMU's center button.
- *
- * When this callback is fired, it will toggle line 2 of the LCD text between
- * "I was pressed!" and nothing.
- */
-
-/**
  * Runs initialization code. This occurs as soon as the program is started.
  *
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
+	// Motor Init
 	Motor FL(FLPort, E_MOTOR_GEARSET_06, true, E_MOTOR_ENCODER_DEGREES);
 	Motor BLU(BLUPort, E_MOTOR_GEARSET_06, false, E_MOTOR_ENCODER_DEGREES);
 	Motor BLD(BLDPort, E_MOTOR_GEARSET_06, true, E_MOTOR_ENCODER_DEGREES);
 	Motor FR(FRPort, E_MOTOR_GEARSET_06, false, E_MOTOR_ENCODER_DEGREES);
 	Motor BRU(BRUPort, E_MOTOR_GEARSET_06, true, E_MOTOR_ENCODER_DEGREES);
 	Motor BRD(BRDPort, E_MOTOR_GEARSET_06, false, E_MOTOR_ENCODER_DEGREES);
-
 	Motor arm(armPort, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 	Motor intake(intakePort, E_MOTOR_GEARSET_06, true, E_MOTOR_ENCODER_DEGREES);
+
+	// Pneumatic init
+	ADIDigitalOut tilt(tiltPort);
+	ADIDigitalOut tiltClamp(tiltClampPort);
+	ADIDigitalOut armClamp(armClampPort);
+
+	// Start tasks
+	Task armControlTask(armControl, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Arm Control Task");
+	Task tiltControlTask(tiltControl, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Tilt Control Task");
+	Task intakeControlTask(intakeControl, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Intake Control Task");
 }
 
 /**
@@ -76,8 +79,6 @@ void opcontrol() {
 	Motor FR(FRPort);
 	Motor BRU(BRUPort);
 	Motor BRD(BRDPort);
-	Motor arm(armPort);
-	Motor intake(intakePort);
 
 	FL.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 	BLU.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
@@ -86,14 +87,15 @@ void opcontrol() {
 	BRU.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 	BRD.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 
-	arm.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
-
 	Controller master(E_CONTROLLER_MASTER);
 
+	int armPos = 0;
+	bool armClampActive = false;
+	bool tilterActive = false;
 	bool tankDrive = false;
 	while(true) {
 		double left, right;
-		if(master.get_digital_new_press(DIGITAL_X)) tankDrive = !tankDrive;
+		if(master.get_digital_new_press(DIGITAL_Y)) tankDrive = !tankDrive;
 
 		if(tankDrive) {
 			left = master.get_analog(ANALOG_LEFT_Y);
@@ -106,14 +108,22 @@ void opcontrol() {
 			right = power - turn;
 		}
 
-		arm.move(127*(master.get_digital(DIGITAL_L1) - master.get_digital(DIGITAL_L2)));
-		intake.move(127*(master.get_digital(DIGITAL_R1) - master.get_digital(DIGITAL_R2)));
-
 		FL.move(left);
 		BLU.move(left);
 		BLD.move(left);
 		FR.move(right);
 		BRU.move(right);
 		BRD.move(right);
+
+		if(master.get_digital_new_press(DIGITAL_L1) && armPos < 2) setArmPos(++armPos);
+		else if(master.get_digital_new_press(DIGITAL_L2) && armPos > 0) setArmPos(--armPos);
+
+		if(master.get_digital_new_press(DIGITAL_R2)) toggleArmClampState();
+
+		if(master.get_digital_new_press(DIGITAL_X)) toggleTiltState();
+
+		setIntake(master.get_digital(DIGITAL_R1)*127);
+
+		delay(5);
 	}
 }
