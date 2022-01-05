@@ -22,10 +22,15 @@ void initialize() {
 	ADIDigitalOut tiltClamp(tiltClampPort);
 	ADIDigitalOut armClamp(armClampPort);
 
-	// Start tasks
+	// Mech tasks
 	Task armControlTask(armControl, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Arm Control Task");
 	Task tiltControlTask(tiltControl, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Tilt Control Task");
 	Task intakeControlTask(intakeControl, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Intake Control Task");
+
+	// Base tasks
+	// Task PPControlTask(PPControl, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "PP Control Task");
+	Task odometryTask(Odometry, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Odom Task");
+	Task sensorsTask(Sensors, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Sensor Task");
 }
 
 /**
@@ -92,7 +97,7 @@ void opcontrol() {
 	int armPos = 0;
 	bool armClampActive = false;
 	bool tilterActive = false;
-	bool tankDrive = false;
+	bool tankDrive = true;
 	while(true) {
 		double left, right;
 		if(master.get_digital_new_press(DIGITAL_Y)) tankDrive = !tankDrive;
@@ -123,6 +128,8 @@ void opcontrol() {
 		if(master.get_digital_new_press(DIGITAL_X)) toggleTiltState();
 
 		setIntake(master.get_digital(DIGITAL_R1)*127);
+
+		encdPrintTerminal();
 
 		delay(5);
 	}

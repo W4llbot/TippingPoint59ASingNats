@@ -24,6 +24,6 @@
 
 #define encdSPort 7
 #define encdRPort 5
-#define imuPort 14
+#define imuPort 12
 
 #endif
