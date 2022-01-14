@@ -28,7 +28,6 @@ void initialize() {
 	Task intakeControlTask(intakeControl, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Intake Control Task");
 
 	// Base tasks
-	// Task PPControlTask(PPControl, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "PP Control Task");
 	Task odometryTask(Odometry, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Odom Task");
 	Task sensorsTask(Sensors, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Sensor Task");
 }
@@ -62,7 +61,49 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+void autonomous() {
+	Task controlTask(PPControl, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "PP Task");
+	std::vector<Node> testPath = {Node(0, 0), Node(0, 72)};
+	std::vector<Node> moveTurnPath = {Node(0, 0), Node(0, 24), Node(48, 48)};
+	std::vector<Node> reverseMoveTurnPath = {Node(48, 48), Node(24, 24), Node(0, 0)};
+	std::vector<Node> straightPath = {Node(0, 0), Node(0, -24), Node(24, -36)};
+
+	setOffset(-79.5);
+	baseTurn(-79.5);
+	// setMaxRPM(300);
+
+	// baseTurn(79.5);
+	// waitTurn(1000);
+
+	delay(200);
+
+	baseMove(-5);
+	waitPP(700);
+
+	delay(200);
+
+	baseMove(5);
+	waitPP(700);
+
+	delay(200);
+
+	baseTurn(10.5, 59);
+	waitTurn(1000);
+
+	delay(200);
+	// std::vector<Node> initEdgeTurn = {Node(0, 0), Node(-6, 25)};
+	// double smooth = 0.75;
+	// basePP(initEdgeTurn, 1-smooth, smooth, 17);
+	// waitPP(100000);
+
+	// delay(2000);
+	//
+	// baseTurn(0, 0);
+	// waitTurn(10000000);
+	//
+	// baseMove(0, 0);
+	// waitPP(100000);
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task

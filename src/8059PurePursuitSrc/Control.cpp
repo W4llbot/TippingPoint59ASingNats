@@ -1,7 +1,9 @@
 #include "main.h"
-#define kV 3978
-#define kA 50000
+#define kV 1340
+#define kA 100000
 #define kP 1000
+// #define kA 50000
+// #define kP 1000
 
 bool enablePP = false;
 bool reverse = false;
@@ -10,6 +12,8 @@ Path path;
 int closestPointIndex = 0;
 double lastFracIndex = 0;
 double targBearing = 0;
+
+bool enableL = true, enableR = false;
 
 void drive(double l, double r){
   Motor FL (FLPort);
@@ -30,6 +34,7 @@ void drive(double l, double r){
 void resetPP() {
   closestPointIndex = 0;
   lastFracIndex = 0;
+  targBearing = bearing;
 }
 
 void baseTurn(double p_bearing) {
@@ -69,7 +74,6 @@ void waitPP(double cutoff){
   while((distance(position, target) >= LEEWAY || fabs(measuredV) > 0.0001)) delay(5);
 
   resetPP();
-  targBearing = bearing;
   enablePP = false;
 
   printf("I stopped :)\n");
@@ -102,7 +106,7 @@ void PPControl(void * ignore){
       if(count % 10 == 0) {
         printf("Pt on path: ");
         path.getSmoWp(closestPointIndex).print();
-        // path.debugPoint(closestPointIndex);
+
       }
 
       // ===================================================================================
@@ -166,8 +170,9 @@ void PPControl(void * ignore){
       // if(count % 10 == 0) printf("TargVL: %.5f\tTargVR: %.5f\n", targVL, targVR);
     }else {
       double errorBearing = targBearing - bearing;
-      targVL = abscap(errorBearing*0.049, globalMaxV);
-      targVR = -targVL;
+      if(enableL&&enableR) targVL = enableL ? abscap(errorBearing*0.4, globalMaxV) : 0;
+      else targVL = enableL ? abscap(errorBearing*0.2, globalMaxV) : 0;
+      targVR = enableR ? -targVL : 0;
 
 
       if(count % 10 == 0) {
@@ -209,7 +214,7 @@ void PPControl(void * ignore){
     prevTargVR = targVR;
     // debugging
 
-    // if(count % 10 == 0) printf("TargV: %4.5f\tMeasuredv: %4.5f\n\n", targV, measuredV);
+    if(count % 10 == 0) printf("\tTargV: %4.5f\tMeasuredv: %4.5f", targV*inPerMsToRPM, measuredV*inPerMsToRPM);
     count++;
     if(count % 10 == 0) printf("\n");
 

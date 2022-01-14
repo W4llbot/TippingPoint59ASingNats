@@ -5,4 +5,6 @@ extern Node position;
 extern double encdS, encdR, bearing, angle;
 extern double measuredV, measuredVL, measuredVR;
 void Sensors(void * ignore);
+
+void setOffset(double i);
 #endif

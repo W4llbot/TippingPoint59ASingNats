@@ -111,7 +111,10 @@ void Path::debugPoint(int i) {
   printf("{%.2f, %.2f}\t", smoWps[i].getX(), smoWps[i].getY());
   printf("Dist: %.2f\t", dist[i]);
   printf("Curv: %.5f\t", curv[i]);
-  printf("MaxV: %.5f\t", maxV[i]);
-  printf("TargV: %.5f\t", targV[i]);
+  printf("MaxV: %.5f\t", maxV[i]*inPerMsToRPM);
+  printf("TargV: %.5f\t", targV[i]*inPerMsToRPM);
   // printf("\n");
 }
+// void setMaxRPM(double rpm) {
+//   MAXRPMV = rpm;
+// }

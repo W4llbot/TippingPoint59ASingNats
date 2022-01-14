@@ -1,5 +1,6 @@
 #include "main.h"
 /** global variables */
+double offset = 0;
 Node position;
 double encdS = 0, encdR = 0, bearing = 0, angle = halfPI;
 double measuredV = 0, measuredVL = 0, measuredVR = 0;
@@ -20,11 +21,15 @@ void Sensors(void * ignore){
   while(true){
     encdR = -encoderR.get_value()*inPerDeg;
     encdS = encoderS.get_value()*inPerDeg;
-    bearing = imu.is_calibrating()? 0 : imu.get_rotation()*toRad;
+    bearing = imu.is_calibrating()? 0 : (imu.get_rotation()*toRad + offset*toRad);
     angle = boundRad(halfPI - bearing);
     measuredVL = (FL.get_actual_velocity() + BLU.get_actual_velocity() + BLD.get_actual_velocity())/3 * RPMToInPerMs;
     measuredVR = (FR.get_actual_velocity() + BRU.get_actual_velocity() + BRD.get_actual_velocity())/3 * RPMToInPerMs;;
     measuredV = (measuredVL + measuredVR)/2;
     delay(5);
   }
+}
+
+void setOffset(double i) {
+  offset = i;
 }
