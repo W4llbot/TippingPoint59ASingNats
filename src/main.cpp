@@ -28,7 +28,6 @@ void initialize() {
 	Task intakeControlTask(intakeControl, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Intake Control Task");
 
 	// Base tasks
-	Task odometryTask(Odometry, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Odom Task");
 	Task sensorsTask(Sensors, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Sensor Task");
 }
 
@@ -62,21 +61,25 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
+	setOffset(-79.5);
+	baseTurn(-79.5);
+	delay(100);
+	Task odometryTask(Odometry, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Odom Task");
 	Task controlTask(PPControl, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "PP Task");
 	std::vector<Node> testPath = {Node(0, 0), Node(0, 72)};
 	std::vector<Node> moveTurnPath = {Node(0, 0), Node(0, 24), Node(48, 48)};
 	std::vector<Node> reverseMoveTurnPath = {Node(48, 48), Node(24, 24), Node(0, 0)};
 	std::vector<Node> straightPath = {Node(0, 0), Node(0, -24), Node(24, -36)};
 
-	setOffset(-79.5);
-	baseTurn(-79.5);
+	// setOffset(-79.5);
+	// baseTurn(-79.5);
 	// setMaxRPM(300);
 
 	// baseTurn(79.5);
 	// waitTurn(1000);
 
-	delay(200);
-
+	// delay(200);
+	setMaxRPMV(500);
 	baseMove(-5);
 	waitPP(700);
 
@@ -85,16 +88,24 @@ void autonomous() {
 	baseMove(5);
 	waitPP(700);
 
-	delay(200);
+	setMaxRPMV(300);
 
-	baseTurn(10.5, 59);
+	// delay(200);
+
+	// baseTurn(12, 58);
+	baseTurn(22);
 	waitTurn(1000);
 
-	delay(200);
-	// std::vector<Node> initEdgeTurn = {Node(0, 0), Node(-6, 25)};
-	// double smooth = 0.75;
-	// basePP(initEdgeTurn, 1-smooth, smooth, 17);
-	// waitPP(100000);
+
+	setMaxRPMV(500);
+	// delay(200);
+	std::vector<Node> initEdgeTurn = {position, Node(12, 58)};
+	double smooth = 0.75;
+	basePP(initEdgeTurn, 1-smooth, smooth, 17);
+
+	waitArmClamp(2000);
+	setArmPos(2);
+	waitPP(2000);
 
 	// delay(2000);
 	//

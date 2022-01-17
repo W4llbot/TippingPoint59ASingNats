@@ -1,5 +1,16 @@
 #include "main.h"
 
+double maxRPMV = 500.0;
+double maxRPMA = 1.0;
+
+double globalMaxV = maxRPMV * RPMToInPerMs;
+double globalMaxA = maxRPMA * RPMToInPerMs;
+
+void setMaxRPMV(double rpm) {
+  maxRPMV = rpm;
+  globalMaxV = maxRPMV * RPMToInPerMs;
+}
+
 Path::Path(): wps{}
 {}
 Path::Path(std::vector<Node> p_wps): wps{p_wps}

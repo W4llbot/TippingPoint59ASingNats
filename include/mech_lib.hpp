@@ -5,10 +5,12 @@ void armControl(void*ignore);
 void setArmPos(int pos);
 void setArmClampState(bool state);
 void toggleArmClampState();
+void waitArmClamp(double cutoff);
 
 void tiltControl(void*ignore);
 void setTiltState(bool state);
 void toggleTiltState();
+void waitTiltClamp(double cutoff);
 
 void intakeControl(void*ignore);
 void setIntake(double pow);

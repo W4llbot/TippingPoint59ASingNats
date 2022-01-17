@@ -15,4 +15,7 @@ double distance(Node n1, Node n2);
 double circumRad(Node n1, Node n2, Node n3);
 double isEqualDoubles(double a, double b, double epsilon);
 double bearingToMathAngle(double angle);
+
+void waitUntil(bool condition);
+void waitUntil(bool condition, double cutoff);
 #endif

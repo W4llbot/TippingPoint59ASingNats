@@ -8,12 +8,13 @@
 // Gear Ratio 3:5
 #define RPMToInPerMs 1/60/1000*360*inPerDeg
 #define inPerMsToRPM 1/inPerDeg*1000*60/360
-#define MAXRPMV 500.0
-#define MAXRPMA 1.0
-
+// #define MAXRPMV 500.0
+// #define MAXRPMA 1.0
+//
 #define voltageToPower 127/12000
-#define globalMaxV MAXRPMV * RPMToInPerMs
-#define globalMaxA MAXRPMA * RPMToInPerMs
+// #define globalMaxV MAXRPMV * RPMToInPerMs
+// #define globalMaxA MAXRPMA * RPMToInPerMs
+extern double globalMaxV, globalMaxA;
 
 //INJECT
 #define SPACING 1
@@ -21,6 +22,8 @@
 #define TOLERANCE 0.001
 //MAXV
 #define K 0.017
+
+void setMaxRPMV(double rpm);
 class Path{
 private:
   std::vector<Node> wps;

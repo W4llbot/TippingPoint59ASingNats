@@ -6,7 +6,7 @@ void Odometry(void * ignore){
   Controller master(E_CONTROLLER_MASTER);
 
   /** D loop variables */
-  double prevEncdR = 0, prevEncdS = 0, prevBearing = 0;
+  double prevEncdR = 0, prevEncdS = 0, prevBearing = bearing;
   int count = 0;
   while(!COMPETITION_MODE || competition::is_autonomous()){
     // Amount moved by robot

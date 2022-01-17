@@ -44,7 +44,7 @@ void baseTurn(double p_bearing) {
 void baseTurn(double x, double y) {
   double turnBearing = atan2(x - position.getX(), y - position.getY())*toDeg;
   baseTurn(turnBearing);
-  printf("Turn to: %.5fdeg\n", turnBearing*toDeg);
+  printf("Turn to: %.5fdeg\n", turnBearing);
 }
 
 void waitTurn(double cutoff) {
@@ -76,7 +76,7 @@ void waitPP(double cutoff){
   resetPP();
   enablePP = false;
 
-  printf("I stopped :)\n");
+  printf("I stopped :)\n\n");
 }
 
 void PPControl(void * ignore){
@@ -90,7 +90,7 @@ void PPControl(void * ignore){
 
   int count = 0;
 
-  while(true){
+  while(competition::is_autonomous()){
     if(count % 10 == 0) printf("status: %s\t", (enablePP? "enabled": "disabled"));
 
     if(enablePP) {
@@ -170,7 +170,7 @@ void PPControl(void * ignore){
       // if(count % 10 == 0) printf("TargVL: %.5f\tTargVR: %.5f\n", targVL, targVR);
     }else {
       double errorBearing = targBearing - bearing;
-      if(enableL&&enableR) targVL = enableL ? abscap(errorBearing*0.4, globalMaxV) : 0;
+      if(enableL&&enableR) targVL = enableL ? abscap(errorBearing*0.8, globalMaxV) : 0;
       else targVL = enableL ? abscap(errorBearing*0.2, globalMaxV) : 0;
       targVR = enableR ? -targVL : 0;
 

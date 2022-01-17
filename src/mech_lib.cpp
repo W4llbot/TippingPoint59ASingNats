@@ -24,6 +24,7 @@ void armControl(void*ignore) {
 void setArmPos(int pos) {armTarg = armHeights[pos];}
 void setArmClampState(bool state) {armClampState = state;}
 void toggleArmClampState() {armClampState = !armClampState;}
+void waitArmClamp(double cutoff) {waitUntil(armClampState, cutoff);}
 
 void tiltControl(void*ignore) {
   ADIDigitalOut tilt(tiltPort);
@@ -48,6 +49,7 @@ void tiltControl(void*ignore) {
 
 void setTiltState(bool state) {tiltState = state;}
 void toggleTiltState() {tiltState = !tiltState;}
+void waitTiltClamp(double cutoff) {waitUntil(tiltState, cutoff);}
 
 void intakeControl(void*ignore) {
   Motor intake(intakePort);

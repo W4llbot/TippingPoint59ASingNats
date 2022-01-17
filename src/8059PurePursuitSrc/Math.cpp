@@ -28,3 +28,9 @@ double bearingToMathAngle(double angle){
   double res = halfPI - angle;
   return boundRad(res);
 }
+
+void waitUntil(bool condition) {while(!condition) delay(5);}
+void waitUntil(bool condition, double cutoff) {
+  double start = millis();
+  while(!condition && (millis() - start) < cutoff) delay(5);
+}
