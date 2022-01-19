@@ -21,7 +21,8 @@ extern double globalMaxV, globalMaxA;
 //SMOOTH
 #define TOLERANCE 0.001
 //MAXV
-#define K 0.017
+// #define K 0.017
+#define K 0.000000000000000171
 
 void setMaxRPMV(double rpm);
 class Path{

@@ -53,7 +53,7 @@ void baseTurn(double x, double y) {
 }
 
 void waitTurn(double cutoff) {
-  while(fabs(targBearing - bearing)*toDeg > TURN_LEEWAY || fabs(measuredVL*inPerMsToRPM) > 5 || fabs(measuredVR*inPerMsToRPM) > 5) delay(5);
+  while(fabs(targBearing - bearing)*toDeg > TURN_LEEWAY || fabs(measuredVL*inPerMsToRPM) > 2 || fabs(measuredVR*inPerMsToRPM) > 2) delay(5);
   printf("I stopped :)\n\n");
 }
 
@@ -74,7 +74,7 @@ void baseMove(double x, double y) {baseMove(sqrt(pow(x - position.getX(), 2) + p
 void waitPP(double cutoff){
   // int stopTime;
   Node target = path.getSmoWp(path.getN()-1);
-  while((distance(position, target) >= LEEWAY || fabs(measuredV) > 0.0001)) delay(5);
+  while((distance(position, target) >= LEEWAY || fabs(measuredV*inPerMsToRPM) > 2)) delay(5);
 
   resetPP();
   enablePP = false;
@@ -177,8 +177,8 @@ void PPControl(void * ignore){
         targVL = enableL ? abscap(errorBearing*1, globalMaxV) : 0;
         targVR = -targVL;
       }else {
-        targVL = enableL ? abscap(errorBearing*0.2, globalMaxV) : 0;
-        targVR = enableR ? -abscap(errorBearing*0.2, globalMaxV) : 0;
+        targVL = enableL ? abscap(errorBearing*0.1, globalMaxV) : 0;
+        targVR = enableR ? -abscap(errorBearing*0.1, globalMaxV) : 0;
       }
 
 

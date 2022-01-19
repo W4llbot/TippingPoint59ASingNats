@@ -73,13 +73,13 @@ void Path::calcDist(){
   // printVector(dist);
 }
 void Path::calcCurvature(){
-  curv.push_back(INFsmall); //starting point
+  curv.push_back(0); //starting point
   for (int i = 1;i<=n-2;++i){
     double r = circumRad(smoWps[i-1], smoWps[i], smoWps[i+1]);
     curv.push_back(1/r);
   }
   // printVector(curv);
-  curv.push_back(INFsmall); //final point
+  curv.push_back(0); //final point
 }
 void Path::calcMaxV(){
   for(int i = 0;i<n;++i){
@@ -121,7 +121,7 @@ void Path::setWps(std::vector<Node> p_wps, double p_w_data, double p_w_smooth, d
 void Path::debugPoint(int i) {
   printf("{%.2f, %.2f}\t", smoWps[i].getX(), smoWps[i].getY());
   printf("Dist: %.2f\t", dist[i]);
-  printf("Curv: %.5f\t", curv[i]);
+  printf("Curv: %.20f\t", curv[i]);
   printf("MaxV: %.5f\t", maxV[i]*inPerMsToRPM);
   printf("TargV: %.5f\t", targV[i]*inPerMsToRPM);
   // printf("\n");

@@ -74,14 +74,6 @@ void autonomous() {
 	std::vector<Node> reverseMoveTurnPath = {Node(48, 48), Node(24, 24), Node(0, 0)};
 	std::vector<Node> straightPath = {Node(0, 0), Node(0, -24), Node(24, -36)};
 
-	// setOffset(-79.5);
-	// baseTurn(-79.5);
-	// setMaxRPM(300);
-
-	// baseTurn(79.5);
-	// waitTurn(1000);
-
-	// delay(200);
 	setMaxRPMV(500);
 	baseMove(-5);
 	waitPP(700);
@@ -91,17 +83,10 @@ void autonomous() {
 	baseMove(5);
 	waitPP(700);
 
-
-	// delay(200);
-
-	// baseTurn(12, 58);
 	enableBase(true, false);
 	baseTurn(22);
 	waitTurn(1000);
 
-
-	// setMaxRPMV(300);
-	// delay(200);
 	setMaxRPMV(500);
 	std::vector<Node> initEdgeTurn = {position, Node(14, 58)};
 	double smooth = 0.75;
@@ -117,9 +102,9 @@ void autonomous() {
 	// basePP(moveToPlatform1, 1-smooth, smooth, 12);
 	// waitPP(2000);
 
-	setMaxRPMV(300);
-	std::vector<Node> moveToPlatform1 = {position, Node(48, 81)};
-	basePP(moveToPlatform1, 1-smooth, smooth, 22);
+	// setMaxRPMV(300);
+	std::vector<Node> moveToRings1 = {position, Node(23, 76), Node(55, 81)};
+	basePP(moveToRings1, 1-smooth, smooth, 10);
 	waitPP(2000);
 
 	delay(1000);
