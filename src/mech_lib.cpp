@@ -1,6 +1,6 @@
 #include "main.h"
 
-const double armHeights[] = {45, 390, 800};
+const double armHeights[] = {35, 390, 800};
 double armTarg = armHeights[0], armKP = 1;
 bool tiltState = LOW, armClampState = LOW;
 double intakeTarg = 0;
@@ -17,6 +17,7 @@ void armControl(void*ignore) {
     if(armLimit.get_new_press()) armClampState = true;
     armClamp.set_value(armClampState);
 
+    // printf("armtarg: %.2f/t currpos: %.2f\n", armTarg, arm.get_position());
     delay(dT);
   }
 }

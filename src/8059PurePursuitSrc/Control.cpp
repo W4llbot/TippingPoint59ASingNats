@@ -13,7 +13,7 @@ int closestPointIndex = 0;
 double lastFracIndex = 0;
 double targBearing = 0;
 
-bool enableL = true, enableR = false;
+bool enableL = false, enableR = false;
 
 void drive(double l, double r){
   Motor FL (FLPort);
@@ -37,19 +37,24 @@ void resetPP() {
   targBearing = bearing;
 }
 
+void enableBase(bool left, bool right) {
+  enableL = left;
+  enableR = right;
+}
+
 void baseTurn(double p_bearing) {
   targBearing = p_bearing*toRad;
+  printf("Turn to: %.5fdeg\n", p_bearing);
 }
 
 void baseTurn(double x, double y) {
   double turnBearing = atan2(x - position.getX(), y - position.getY())*toDeg;
   baseTurn(turnBearing);
-  printf("Turn to: %.5fdeg\n", turnBearing);
 }
 
 void waitTurn(double cutoff) {
-  while(fabs(targBearing - bearing)*toDeg > TURN_LEEWAY || fabs(measuredVL) > 0.0001 || fabs(measuredVR) > 0.0001) delay(5);
-  printf("I stopped :)\n");
+  while(fabs(targBearing - bearing)*toDeg > TURN_LEEWAY || fabs(measuredVL*inPerMsToRPM) > 5 || fabs(measuredVR*inPerMsToRPM) > 5) delay(5);
+  printf("I stopped :)\n\n");
 }
 
 void basePP(std::vector<Node> wps, double p_w_data, double p_w_smooth, double p_lookAhead, bool p_reverse){
@@ -64,9 +69,7 @@ void baseMove(double dis) {
 	basePP(straightPath, 1-smooth, smooth, 20, dis < 0);
 }
 
-void baseMove(double x, double y) {
-  baseMove(sqrt(pow(x - position.getX(), 2) + pow(y - position.getY(), 2)));
-}
+void baseMove(double x, double y) {baseMove(sqrt(pow(x - position.getX(), 2) + pow(y - position.getY(), 2)));}
 
 void waitPP(double cutoff){
   // int stopTime;
@@ -170,9 +173,13 @@ void PPControl(void * ignore){
       // if(count % 10 == 0) printf("TargVL: %.5f\tTargVR: %.5f\n", targVL, targVR);
     }else {
       double errorBearing = targBearing - bearing;
-      if(enableL&&enableR) targVL = enableL ? abscap(errorBearing*0.8, globalMaxV) : 0;
-      else targVL = enableL ? abscap(errorBearing*0.2, globalMaxV) : 0;
-      targVR = enableR ? -targVL : 0;
+      if(enableL&&enableR) {
+        targVL = enableL ? abscap(errorBearing*1, globalMaxV) : 0;
+        targVR = -targVL;
+      }else {
+        targVL = enableL ? abscap(errorBearing*0.2, globalMaxV) : 0;
+        targVR = enableR ? -abscap(errorBearing*0.2, globalMaxV) : 0;
+      }
 
 
       if(count % 10 == 0) {

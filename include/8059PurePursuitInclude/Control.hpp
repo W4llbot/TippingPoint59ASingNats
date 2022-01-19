@@ -1,7 +1,7 @@
 #ifndef _8059_PP_CONTROL_HPP_
 #define _8059_PP_CONTROL_HPP_
-#define TURN_LEEWAY 1
-#define LEEWAY 1
+#define TURN_LEEWAY 1.5
+#define LEEWAY 3
 #define DEFAULT_W_SMOOTH 0.75
 #define DEFAULT_W_DATA 1-DEFAULT_W_SMOOTH
 #define DEFAULT_LOOK_AHEAD 24
@@ -9,6 +9,7 @@
 extern bool enablePP;
 
 void drive(double l, double r);
+void enableBase(bool left, bool right);
 void baseTurn(double p_bearing);
 void baseTurn(double x, double y);
 void baseMove(double dis);

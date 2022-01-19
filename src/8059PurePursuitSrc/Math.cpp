@@ -18,6 +18,7 @@ double circumRad(Node n1, Node n2, Node n3){
   double b = distance(n2, n3);
   double c = distance(n3, n1);
   double denom = sqrt((a+b+c)*(b+c-a)*(c+a-b)*(a+b-c));
+  printf("Square: %.10f\n", ((a+b+c)*(b+c-a)*(c+a-b)*(a+b-c)));
   if(denom <= INFsmall) return INF;
   else return a*b*c/denom;
 }

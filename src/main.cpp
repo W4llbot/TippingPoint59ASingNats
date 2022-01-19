@@ -17,6 +17,8 @@ void initialize() {
 	Motor arm(armPort, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 	Motor intake(intakePort, E_MOTOR_GEARSET_06, true, E_MOTOR_ENCODER_DEGREES);
 
+	arm.tare_position();
+
 	// Pneumatic init
 	ADIDigitalOut tilt(tiltPort);
 	ADIDigitalOut tiltClamp(tiltClampPort);
@@ -61,6 +63,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
+	double start = millis();
 	setOffset(-79.5);
 	baseTurn(-79.5);
 	delay(100);
@@ -88,24 +91,47 @@ void autonomous() {
 	baseMove(5);
 	waitPP(700);
 
-	setMaxRPMV(300);
 
 	// delay(200);
 
 	// baseTurn(12, 58);
+	enableBase(true, false);
 	baseTurn(22);
 	waitTurn(1000);
 
 
-	setMaxRPMV(500);
+	// setMaxRPMV(300);
 	// delay(200);
-	std::vector<Node> initEdgeTurn = {position, Node(12, 58)};
+	setMaxRPMV(500);
+	std::vector<Node> initEdgeTurn = {position, Node(14, 58)};
 	double smooth = 0.75;
-	basePP(initEdgeTurn, 1-smooth, smooth, 17);
+	basePP(initEdgeTurn, 1-smooth, smooth, 20);
 
-	waitArmClamp(2000);
-	setArmPos(2);
+	// waitArmClamp(15000);
+	// delay(50);
 	waitPP(2000);
+	setArmPos(2);
+	setIntake(127);
+
+	// std::vector<Node> moveToPlatform1 = {position, Node(40, 93)};
+	// basePP(moveToPlatform1, 1-smooth, smooth, 12);
+	// waitPP(2000);
+
+	setMaxRPMV(300);
+	std::vector<Node> moveToPlatform1 = {position, Node(48, 81)};
+	basePP(moveToPlatform1, 1-smooth, smooth, 22);
+	waitPP(2000);
+
+	delay(1000);
+
+	enableBase(true, true);
+	baseTurn(0);
+	waitTurn(1000);
+
+	// setArmPos(20);
+	// delay(500);
+	// setArmClampState(false);
+	// printf("Run finished in %.2f", millis() - start);
 
 	// delay(2000);
 	//
@@ -181,7 +207,7 @@ void opcontrol() {
 
 		setIntake(master.get_digital(DIGITAL_R1)*127);
 
-		encdPrintTerminal();
+		// encdPrintTerminal();
 
 		delay(5);
 	}
