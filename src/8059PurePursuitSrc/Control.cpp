@@ -78,6 +78,7 @@ void waitPP(double cutoff){
 
   resetPP();
   enablePP = false;
+  reverse = false;
 
   printf("I stopped :)\n\n");
 }
@@ -174,17 +175,17 @@ void PPControl(void * ignore){
     }else {
       double errorBearing = targBearing - bearing;
       if(enableL&&enableR) {
-        targVL = enableL ? abscap(errorBearing*1, globalMaxV) : 0;
+        targVL = enableL ? abscap(errorBearing*0.2, globalMaxV) : 0;
         targVR = -targVL;
       }else {
-        targVL = enableL ? abscap(errorBearing*0.1, globalMaxV) : 0;
-        targVR = enableR ? -abscap(errorBearing*0.1, globalMaxV) : 0;
+        targVL = enableL ? abscap(errorBearing*0.3, globalMaxV) : 0;
+        targVR = enableR ? -abscap(errorBearing*0.3, globalMaxV) : 0;
       }
 
 
       if(count % 10 == 0) {
         position.print();
-        printf("\tBearing: %.5f\ttargV: %5f", bearing*toDeg, targVL);
+        printf("\tBearing: %.5f\ttargVL: %5f", bearing*toDeg, targVL);
       }
     }
 

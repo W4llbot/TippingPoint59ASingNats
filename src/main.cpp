@@ -110,13 +110,51 @@ void autonomous() {
 	delay(1000);
 
 	enableBase(true, true);
-	baseTurn(0);
+	baseTurn(-15);
 	waitTurn(1000);
 
-	// setArmPos(20);
-	// delay(500);
-	// setArmClampState(false);
-	// printf("Run finished in %.2f", millis() - start);
+	baseMove(15);
+	waitPP(1000);
+
+
+	setArmPos(1);
+	delay(500);
+	setArmClampState(false);
+	delay(500);
+
+	baseMove(-15);
+	waitPP(1000);
+
+	setArmPos(0);
+	baseTurn(46, 56);
+	waitTurn(1000);
+
+	baseMove(46, 56);
+	waitPP(2000);
+
+	setArmPos(2);
+	baseTurn(2);
+	waitTurn(1000);
+
+	baseMove(33);
+	waitPP(2000);
+
+	setArmPos(1);
+	delay(500);
+
+	baseMove(4);
+	waitPP(2000);
+
+	setArmClampState(false);
+	delay(500);
+
+	baseMove(-15);
+	waitPP(1000);
+
+	setTiltState(false);
+
+
+	printf("Run finished in %.2f", millis() - start);
 
 	// delay(2000);
 	//
