@@ -1,6 +1,6 @@
 #include "main.h"
 
-const double armHeights[] = {35, 450, 800};
+const double armHeights[] = {30, 450, 800};
 double armTarg = armHeights[0], armKP = 1;
 bool tiltState = LOW, armClampState = LOW;
 double intakeTarg = 0;

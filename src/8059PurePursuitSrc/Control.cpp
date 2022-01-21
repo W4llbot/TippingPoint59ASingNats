@@ -2,8 +2,11 @@
 #define kV 1340
 #define kA 100000
 #define kP 1000
+#define DEFAULT_TURN_KP 0.14
 // #define kA 50000
 // #define kP 1000
+
+double turnKP = DEFAULT_TURN_KP;
 
 bool enablePP = false;
 bool reverse = false;
@@ -42,18 +45,31 @@ void enableBase(bool left, bool right) {
   enableR = right;
 }
 
-void baseTurn(double p_bearing) {
+
+void baseTurn(double p_bearing, double kp) {
+  turnKP = kp;
   targBearing = p_bearing*toRad;
   printf("Turn to: %.5fdeg\n", p_bearing);
 }
 
-void baseTurn(double x, double y) {
-  double turnBearing = atan2(x - position.getX(), y - position.getY())*toDeg;
-  baseTurn(turnBearing);
+void baseTurn(double p_bearing) {
+  baseTurn(p_bearing, DEFAULT_TURN_KP);
 }
 
+double calcBaseTurn(double x, double y, bool rev) {
+  double turnBearing = atan2(x - position.getX(), y - position.getY())*toDeg;
+
+  if(fabs(turnBearing - bearing) > fabs(turnBearing - 360 - bearing)) turnBearing = turnBearing - 360;
+
+  return (rev ? turnBearing+180 : turnBearing);
+}
+
+// void baseTurn(double x, double y, bool rev) {
+//   baseTurn(x, y, DEFAULT_TURN_KP, rev);
+// }
+
 void waitTurn(double cutoff) {
-  while(fabs(targBearing - bearing)*toDeg > TURN_LEEWAY || fabs(measuredVL*inPerMsToRPM) > 2 || fabs(measuredVR*inPerMsToRPM) > 2) delay(5);
+  while(fabs(targBearing - bearing)*toDeg > TURN_LEEWAY || fabs(measuredVL*inPerMsToRPM) > 5 || fabs(measuredVR*inPerMsToRPM) > 5) delay(5);
   printf("I stopped :)\n\n");
 }
 
@@ -69,7 +85,13 @@ void baseMove(double dis) {
 	basePP(straightPath, 1-smooth, smooth, 20, dis < 0);
 }
 
-void baseMove(double x, double y) {baseMove(sqrt(pow(x - position.getX(), 2) + pow(y - position.getY(), 2)));}
+void baseMove(double x, double y, bool rev) {
+  baseMove(sqrt(pow(x - position.getX(), 2) + pow(y - position.getY(), 2)) * (rev ? -1 : 1));
+}
+
+void baseMove(double x, double y) {
+  baseMove(x, y, false);
+}
 
 void waitPP(double cutoff){
   // int stopTime;
@@ -175,11 +197,11 @@ void PPControl(void * ignore){
     }else {
       double errorBearing = targBearing - bearing;
       if(enableL&&enableR) {
-        targVL = enableL ? abscap(errorBearing*0.2, globalMaxV) : 0;
+        targVL = enableL ? abscap(errorBearing*turnKP, globalMaxV) : 0;
         targVR = -targVL;
       }else {
-        targVL = enableL ? abscap(errorBearing*0.3, globalMaxV) : 0;
-        targVR = enableR ? -abscap(errorBearing*0.3, globalMaxV) : 0;
+        targVL = enableL ? abscap(errorBearing*0.2, globalMaxV) : 0;
+        targVR = enableR ? -abscap(errorBearing*0.2, globalMaxV) : 0;
       }
 
 

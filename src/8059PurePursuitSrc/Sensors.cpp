@@ -18,8 +18,8 @@ void Sensors(void * ignore){
   ADIEncoder encoderS(encdSPort, encdSPort+1, false);
   bool calibrated = false;
   int start = millis();
-  while(true){ 
-    encdR = -encoderR.get_value()*inPerDeg;
+  while(true){
+    encdR = encoderR.get_value()*inPerDeg;
     encdS = encoderS.get_value()*inPerDeg;
     bearing = imu.is_calibrating()? 0 : (imu.get_rotation()*toRad + offset*toRad);
     angle = boundRad(halfPI - bearing);

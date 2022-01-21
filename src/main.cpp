@@ -80,12 +80,14 @@ void autonomous() {
 
 	delay(200);
 
+  setArmClampState(false);
 	baseMove(5);
 	waitPP(700);
 
 	enableBase(true, false);
 	baseTurn(22);
 	waitTurn(1000);
+
 
 	setMaxRPMV(500);
 	std::vector<Node> initEdgeTurn = {position, Node(14, 58)};
@@ -103,58 +105,91 @@ void autonomous() {
 	// waitPP(2000);
 
 	// setMaxRPMV(300);
-	std::vector<Node> moveToRings1 = {position, Node(23, 76), Node(55, 81)};
+	std::vector<Node> moveToRings1 = {position, Node(23, 76), Node(58, 81)};
 	basePP(moveToRings1, 1-smooth, smooth, 10);
 	waitPP(2000);
 
-	delay(1000);
+	// delay(1000);
 
-	enableBase(true, true);
-	baseTurn(-15);
+  enableBase(true, true);
+  baseMove(-5);
+  waitPP(700);
+
+	baseTurn(-12);
 	waitTurn(1000);
+
+  delay(200);
 
 	baseMove(15);
 	waitPP(1000);
 
-
 	setArmPos(1);
 	delay(500);
 	setArmClampState(false);
 	delay(500);
 
-	baseMove(-15);
-	waitPP(1000);
+  printf("1 goal in %.2f", millis() - start);
 
-	setArmPos(0);
-	baseTurn(46, 56);
-	waitTurn(1000);
+  baseMove(-15);
+  waitPP(2000);
 
-	baseMove(46, 56);
+  setArmPos(0);
+  // baseTurn(50, 57, 0.14, false);
+  baseTurn(calcBaseTurn(50, 57, false));
+  waitTurn(2000);
+  setTiltState(false);
+  delay(300);
+
+  std::vector<Node> disposeGoal = {position, Node(50, 57), Node(83, 15)};
+	basePP(disposeGoal, 1-smooth, smooth, 10);
 	waitPP(2000);
+  setArmClampState(false);
+  delay(500);
 
-	setArmPos(2);
-	baseTurn(2);
-	waitTurn(1000);
+  baseTurn(calcBaseTurn(108, 20, true));
+  waitTurn(1000);
 
-	baseMove(33);
-	waitPP(2000);
+  setTiltState(false);
+  // baseMove(100, 21, true);
+  // waitPP(2000);
+  basePP({position, Node(100, 20)}, 1-smooth, smooth, 10, true);
+  waitPP(2000);
 
-	setArmPos(1);
-	delay(500);
+  // 48, 57
+  // (83, 108), 21
 
-	baseMove(4);
-	waitPP(2000);
+	// baseMove(-15);
+	// waitPP(1000);
 
-	setArmClampState(false);
-	delay(500);
-
-	baseMove(-15);
-	waitPP(1000);
-
-	setTiltState(false);
-
-
-	printf("Run finished in %.2f", millis() - start);
+	// setArmPos(0);
+	// baseTurn(46, 56);
+	// waitTurn(1000);
+  //
+	// baseMove(46, 56);
+	// waitPP(2000);
+  //
+	// setArmPos(2);
+	// baseTurn(2);
+	// waitTurn(1000);
+  //
+	// baseMove(33);
+	// waitPP(2000);
+  //
+	// setArmPos(1);
+	// delay(500);
+  //
+	// baseMove(4);
+	// waitPP(2000);
+  //
+	// setArmClampState(false);
+	// delay(500);
+  //
+	// baseMove(-15);
+	// waitPP(1000);
+  //
+	// setTiltState(false);
+  //
+  //
 
 	// delay(2000);
 	//
@@ -233,5 +268,5 @@ void opcontrol() {
 		// encdPrintTerminal();
 
 		delay(5);
+  }
 	}
-}
