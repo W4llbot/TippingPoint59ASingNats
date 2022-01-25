@@ -86,7 +86,7 @@ void baseMove(double dis) {
   std::vector<Node> straightPath = {position, position + Node(dis*sin(bearing), dis*cos(bearing))};
 
   double smooth = 0.75;
-	basePP(straightPath, 1-smooth, smooth, 20, dis < 0);
+	basePP(straightPath, 1-smooth, smooth, 10, dis < 0);
 }
 
 void baseMove(double x, double y, bool rev) {

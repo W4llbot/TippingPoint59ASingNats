@@ -1,6 +1,6 @@
 #include "main.h"
 
-const double armHeights[] = {30, 450, 800};
+const double armHeights[] = {20, 450, 800};
 double armTarg = armHeights[0], armKP = 1;
 bool tiltState = LOW, armClampState = LOW;
 double intakeTarg = 0;
@@ -23,6 +23,7 @@ void armControl(void*ignore) {
 }
 
 void setArmPos(int pos) {armTarg = armHeights[pos];}
+void setArmHeight(double height) {armTarg = height;}
 void setArmClampState(bool state) {armClampState = state;}
 void toggleArmClampState() {armClampState = !armClampState;}
 void waitArmClamp(double cutoff) {waitUntil(armClampState, cutoff);}
