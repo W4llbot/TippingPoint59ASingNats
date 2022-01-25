@@ -57,11 +57,15 @@ void baseTurn(double p_bearing) {
 }
 
 double calcBaseTurn(double x, double y, bool rev) {
-  double turnBearing = atan2(x - position.getX(), y - position.getY())*toDeg;
+  double turnBearing = atan2(x - position.getX(), y - position.getY());
 
-  if(fabs(turnBearing - bearing) > fabs(turnBearing - 360 - bearing)) turnBearing = turnBearing - 360;
+  // if(fabs(turnBearing - bearing) > fabs(turnBearing - 360 - bearing)) turnBearing = turnBearing - 360;
 
-  return (rev ? turnBearing+180 : turnBearing);
+  double diffBearing = boundRad(turnBearing - bearing);
+  if(diffBearing > PI) diffBearing -= twoPI;
+  turnBearing = bearing + diffBearing;
+
+  return (rev ? (turnBearing+PI)*toDeg : turnBearing*toDeg);
 }
 
 // void baseTurn(double x, double y, bool rev) {

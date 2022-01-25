@@ -128,7 +128,7 @@ void autonomous() {
 	setArmClampState(false);
 	delay(500);
 
-  printf("1 goal in %.2f", millis() - start);
+  printf("\n1 goal in %.2f\n", millis() - start);
 
   baseMove(-15);
   waitPP(2000);
@@ -140,20 +140,28 @@ void autonomous() {
   setTiltState(false);
   delay(300);
 
+	setArmClampState(false);
   std::vector<Node> disposeGoal = {position, Node(50, 57), Node(83, 15)};
 	basePP(disposeGoal, 1-smooth, smooth, 10);
 	waitPP(2000);
   setArmClampState(false);
   delay(500);
 
-  baseTurn(calcBaseTurn(108, 20, true));
+	printf("\ngoal dispoosed in %.2f\n", millis() - start);
+
+  baseTurn(-90);
   waitTurn(1000);
 
   setTiltState(false);
-  // baseMove(100, 21, true);
-  // waitPP(2000);
-  basePP({position, Node(100, 20)}, 1-smooth, smooth, 10, true);
+  baseMove(98, 21, true);
   waitPP(2000);
+  // basePP(2000);
+
+	baseMove(15);
+	waitPP(1000);
+
+	baseTurn(0);
+	waitTurn(1000);
 
   // 48, 57
   // (83, 108), 21
