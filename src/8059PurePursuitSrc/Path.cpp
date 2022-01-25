@@ -1,5 +1,7 @@
 #include "main.h"
 
+double k = 0.0000000000000004;
+
 double maxRPMV = 500.0;
 double maxRPMA = 1.0;
 
@@ -84,7 +86,7 @@ void Path::calcCurvature(){
 void Path::calcMaxV(){
   for(int i = 0;i<n;++i){
     // printf("MaxV: %.5f, Curve: %.5f\n", globalMaxV, K/curv[i]);
-    maxV.push_back(std::min(globalMaxV, K/curv[i]));
+    maxV.push_back(std::min(globalMaxV, k/curv[i]));
   }
   // printVector(maxV);
 }
@@ -125,6 +127,10 @@ void Path::debugPoint(int i) {
   printf("MaxV: %.5f\t", maxV[i]*inPerMsToRPM);
   printf("TargV: %.5f\t", targV[i]*inPerMsToRPM);
   // printf("\n");
+}
+
+void setCurvK(double d) {
+  k = d;
 }
 // void setMaxRPM(double rpm) {
 //   MAXRPMV = rpm;

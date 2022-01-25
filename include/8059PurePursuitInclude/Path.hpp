@@ -22,7 +22,7 @@ extern double globalMaxV, globalMaxA;
 #define TOLERANCE 0.001
 //MAXV
 // #define K 0.017
-#define K 0.0000000000000004
+// #define K 0.0000000000000004
 // #define K 1
 
 void setMaxRPMV(double rpm);
@@ -57,4 +57,6 @@ public:
   void setWps(std::vector<Node> p_wps, double p_w_data, double p_w_smooth, double p_lookAhead);
   void debugPoint(int i);
 };
+
+void setCurvK(double d);
 #endif

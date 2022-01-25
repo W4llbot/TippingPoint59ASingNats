@@ -135,36 +135,70 @@ void autonomous() {
 
   setArmPos(0);
   // baseTurn(50, 57, 0.14, false);
-  baseTurn(calcBaseTurn(50, 57, false));
+  baseTurn(calcBaseTurn(48, 57, false));
   waitTurn(2000);
   setTiltState(false);
   delay(300);
 
+
+	setCurvK(0.000000000000001);
 	setArmClampState(false);
-  std::vector<Node> disposeGoal = {position, Node(50, 57), Node(83, 15)};
+	baseMove(50, 57, false);
+	waitPP(2000);
+
+	setArmPos(1);
+  std::vector<Node> disposeGoal = {position, Node(83, 14)};
 	basePP(disposeGoal, 1-smooth, smooth, 10);
 	waitPP(2000);
+	setArmPos(0);
+	delay(300);
   setArmClampState(false);
-  delay(500);
+  delay(200);
+
+	setCurvK(0.0000000000000004);
 
 	printf("\ngoal dispoosed in %.2f\n", millis() - start);
 
+	// delay(200);
   baseTurn(-90);
   waitTurn(1000);
+	delay(300);
 
   setTiltState(false);
-  baseMove(98, 21, true);
+  baseMove(100, 22, true);
   waitPP(2000);
   // basePP(2000);
 
 	baseMove(15);
 	waitPP(1000);
 
-	baseTurn(0);
+	baseTurn(-2);
 	waitTurn(1000);
+
+	setArmClampState(false);
+	setIntake(127);
+	baseMove(83, 56, false);
+	waitPP(2000);
+
+	setArmPos(2);
+  std::vector<Node> moveToGoal = {position, Node(71, 72), Node(59, 96)};
+	basePP(moveToGoal, 1-smooth, smooth, 6);
+	waitPP(3000);
+
+	baseTurn(-7);
+	waitTurn(1000);
+	setArmPos(1);
+	delay(300);
+	setArmClampState(false);
+
+	
+
 
   // 48, 57
   // (83, 108), 21
+
+	// 83, 71, 59
+	// 56 72 81
 
 	// baseMove(-15);
 	// waitPP(1000);
@@ -273,7 +307,7 @@ void opcontrol() {
 
 		setIntake(master.get_digital(DIGITAL_R1)*127);
 
-		// encdPrintTerminal();
+		encdPrintTerminal();
 
 		delay(5);
   }
