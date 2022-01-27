@@ -1,6 +1,6 @@
 #include "main.h"
 
-double k = 0.0000000000000004;
+double k = 0.0000000000000002;
 
 double maxRPMV = 500.0;
 double maxRPMA = 1.0;
