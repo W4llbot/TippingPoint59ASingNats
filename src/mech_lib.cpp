@@ -1,12 +1,14 @@
 #include "main.h"
 
-const double armHeights[] = {30, 475, 750};
+const double armHeights[] = {30, 415, 650};
+const double progArmHeights [] = {30, 480, 750};
 double armTarg = armHeights[0], armKP = 5;
 bool tiltState = LOW, armClampState = LOW;
 double intakeTarg = 0;
 
 void armControl(void*ignore) {
   Motor arm(armPort);
+  arm.set_brake_mode(MOTOR_BRAKE_BRAKE);
   ADIDigitalOut armClamp(armClampPort);
   ADIDigitalIn armLimit(armLimitPort);
 
@@ -17,7 +19,7 @@ void armControl(void*ignore) {
     if(armLimit.get_new_press()) armClampState = true;
     armClamp.set_value(armClampState);
 
-    // printf("armtarg: %.2f/t currpos: %.2f\n", armTarg, arm.get_position());
+    // printf("armtarg: %.2f\t currpos: %.2f\n", armTarg, arm.get_position());
     delay(dT);
   }
 }
