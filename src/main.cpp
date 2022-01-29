@@ -64,18 +64,21 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	drive(50, 50);
-	// double start = millis();
+	// drive(50, 50);
+	double start = millis();
 	// setOffset(-79.5);
 	// baseTurn(-79.5);
 	// delay(100);
-	// Task odometryTask(Odometry, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Odom Task");
+	Task odometryTask(Odometry, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Odom Task");
 	// Task controlTask(PPControl, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "PP Task");
-	// std::vector<Node> testPath = {Node(0, 0), Node(0, 72)};
-	// std::vector<Node> moveTurnPath = {Node(0, 0), Node(0, 24), Node(48, 48)};
-	// std::vector<Node> reverseMoveTurnPath = {Node(48, 48), Node(24, 24), Node(0, 0)};
-	// std::vector<Node> straightPath = {Node(0, 0), Node(0, -24), Node(24, -36)};
-	//
+	std::vector<Node> testPath = {Node(0, 0), Node(0, 72)};
+	std::vector<Node> moveTurnPath = {Node(0, 0), Node(0, 24), Node(48, 48)};
+	std::vector<Node> reverseMoveTurnPath = {Node(48, 48), Node(24, 24), Node(0, 0)};
+	std::vector<Node> straightPath = {Node(0, 0), Node(0, -24), Node(24, -36)};
+
+	park(100);
+	// waitPP(3000);
+
 	// setMaxRPMV(500);
 	// baseMove(-5);
 	// waitPP(700);
@@ -132,7 +135,7 @@ void autonomous() {
 	//
   // printf("\n1 goal in %.2f\n", millis() - start);
 	//
-	// baseTurn(0, 0.15);
+	// baseTurn(0, 0.16);
 	// waitTurn(0);
 	//
   // baseMove(-16);
@@ -202,14 +205,14 @@ void autonomous() {
 	//
 	// printf("\n2 goals in %.2f\n", millis() - start);
 	//
-	// baseMove(-6);
+	// baseMove(-8);
 	// waitPP(1000);
 	//
 	// setArmPos(0);
-	// baseTurn(calcBaseTurn(36, 93, false));
+	// baseTurn(calcBaseTurn(36, 92, false));
 	// waitTurn(2000);
 	//
-	// baseMove(47, 93, false);
+	// baseMove(47, 92, false);
 	// waitPP(3000);
 	// setArmPos(2);
 	// delay(300);
@@ -248,13 +251,16 @@ void autonomous() {
 	// waitPP(2000);
 	//
 	// enableBase(true, true);
-	// baseTurn(calcBaseTurn(71, 90, false));
+	// baseTurn(calcBaseTurn(60, 89, false));
 	// waitTurn(2000);
 	//
+	// setCurvK(0.000000000000001);
 	// setArmClampState(false);
 	// // baseMove(71, 91, false);
-	// basePP({position, Node(60, 90)}, 1-smooth, smooth, 14);
+	// basePP({position, Node(60, 89)}, 1-smooth, smooth, 14);
 	// waitPP(3000);
+	//
+	// setCurvK(0.0000000000000002);
 	//
 	// setArmPos(2);
 	// delay(500);
@@ -273,6 +279,42 @@ void autonomous() {
 	// setArmClampState(false);
 	// delay(300);
 	// printf("\n4 goals in %.2f\n", millis() - start);
+	//
+	// baseMove(60, 90, true);
+	// waitPP(1000);
+	//
+	// setArmPos(0);
+	// baseTurn(calcBaseTurn(105, 92, false));
+	// waitTurn(2000);
+	//
+	// // baseTurn(calcBaseTurn(92, 95, false));
+	// // waitTurn(2000);
+	//
+	// baseMove(100, 92, false);
+	// waitPP(2000);
+	//
+	// baseTurn(calcBaseTurn(85, 110, false));
+	// waitTurn(2000);
+	//
+	// setArmClampState(false);
+	// baseMove(85, 115, false);
+	// waitPP(2000);
+	//
+	// setArmHeight(200);
+	// baseMove(105, 92, true);
+	// waitPP(2000);
+	//
+	// baseTurn(calcBaseTurn(92, 4, false));
+	// waitTurn(2000);
+	//
+	// setArmPos(1);
+	// baseMove(92, 0, false);
+	// waitPP(4000);
+	//
+	// enableBase(true, false);
+	// baseTurn(calcBaseTurn(0, position.getY(), false));
+	// waitTurn(2000);
+
 
   // 48, 57
   // (83, 108), 21

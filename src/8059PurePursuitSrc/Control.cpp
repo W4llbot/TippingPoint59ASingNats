@@ -18,7 +18,7 @@ double targBearing = 0;
 
 bool enableL = false, enableR = false;
 
-void drive(double l, double r){
+void park(double dis) {
   Motor FL (FLPort);
   Motor BLU (BLUPort);
   Motor BLD (BLDPort);
@@ -37,23 +37,80 @@ void drive(double l, double r){
   BRU.set_brake_mode(MOTOR_BRAKE_HOLD);
   BRD.set_brake_mode(MOTOR_BRAKE_HOLD);
 
+  // FL.move(s);
+  // BLU.move(s);
+  // BLD.move(s);
+  // FR.move(s);
+  // BRU.move(s);
+  // BRD.move(s);
+  //
+  // // while(-imu.get_roll() < 20) delay(5);
+  // // while(-imu.get_roll() > 20) delay(5);
+  //
+  // FL.move(0);
+  // BLU.move(0);
+  // BLD.move(0);
+  // FR.move(0);
+  // BRU.move(0);
+  // BRD.move(0);
+  while(true) {
+    double error = distance(position, Node(0, 45));
+    double speed = error * 20;
+    drive(speed, speed);
+
+    printf("error %.2f\n", error);
+  }
+}
+
+void drive(double l, double r){
+  Motor FL (FLPort);
+  Motor BLU (BLUPort);
+  Motor BLD (BLDPort);
+  Motor FR (FRPort);
+  Motor BRU (BRUPort);
+  Motor BRD (BRDPort);
+
   FL.move(l);
   BLU.move(l);
   BLD.move(l);
   FR.move(r);
   BRU.move(r);
   BRD.move(r);
-
-  while(imu.get_roll() < 20) delay(5);
-  while(imu.get_roll() > 20) delay(5);
-
-  FL.move(0);
-  BLU.move(0);
-  BLD.move(0);
-  FR.move(0);
-  BRU.move(0);
-  BRD.move(0);
 }
+/*Motor FL (FLPort);
+Motor BLU (BLUPort);
+Motor BLD (BLDPort);
+Motor FR (FRPort);
+Motor BRU (BRUPort);
+Motor BRD (BRDPort);
+
+Imu imu (imuPort);
+imu.tare_roll();
+// while(true) printf("imu: %.2f\n", -imu.get_roll());
+
+FL.set_brake_mode(MOTOR_BRAKE_HOLD);
+BLU.set_brake_mode(MOTOR_BRAKE_HOLD);
+BLD.set_brake_mode(MOTOR_BRAKE_HOLD);
+FR.set_brake_mode(MOTOR_BRAKE_HOLD);
+BRU.set_brake_mode(MOTOR_BRAKE_HOLD);
+BRD.set_brake_mode(MOTOR_BRAKE_HOLD);
+
+FL.move(l);
+BLU.move(l);
+BLD.move(l);
+FR.move(r);
+BRU.move(r);
+BRD.move(r);
+
+while(-imu.get_roll() < 20) delay(5);
+while(-imu.get_roll() > 20) delay(5);
+
+FL.move(0);
+BLU.move(0);
+BLD.move(0);
+FR.move(0);
+BRU.move(0);
+BRD.move(0);*/
 
 void resetPP() {
   closestPointIndex = 0;

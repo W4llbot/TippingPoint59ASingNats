@@ -1,8 +1,8 @@
 #include "main.h"
 
-const double armHeights[] = {30, 415, 650};
+// const double armHeights[] = {30, 415, 650};
 const double progArmHeights [] = {30, 480, 750};
-double armTarg = armHeights[0], armKP = 5;
+double armTarg = progArmHeights[0], armKP = 5;
 bool tiltState = LOW, armClampState = LOW;
 double intakeTarg = 0;
 
@@ -24,7 +24,7 @@ void armControl(void*ignore) {
   }
 }
 
-void setArmPos(int pos) {armTarg = armHeights[pos];}
+void setArmPos(int pos) {armTarg = progArmHeights[pos];}
 void setArmHeight(double height) {armTarg = height;}
 void setArmClampState(bool state) {armClampState = state;}
 void toggleArmClampState() {armClampState = !armClampState;}
@@ -39,7 +39,7 @@ void tiltControl(void*ignore) {
     if(tiltLimit.get_new_press()) tiltState = true;
     if(tiltState) {
       tiltClamp.set_value(HIGH);
-      delay(100);
+      delay(150);
       tilt.set_value(HIGH);
     }else{
       tilt.set_value(LOW);

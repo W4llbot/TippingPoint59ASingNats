@@ -8,6 +8,7 @@
 #define dT 5
 extern bool enablePP;
 
+void park(double s);
 void drive(double l, double r);
 void enableBase(bool left, bool right);
 void baseTurn(double p_bearing, double kp);
