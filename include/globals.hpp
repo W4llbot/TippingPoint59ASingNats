@@ -21,6 +21,7 @@
 // Sensor ports
 #define armLimitPort 1
 #define tiltLimitPort {11, 8}
+#define armPotPort {11, 7}
 
 #define encdSPort 7
 #define encdRPort 5

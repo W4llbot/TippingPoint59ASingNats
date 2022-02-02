@@ -3,6 +3,7 @@
 
 void armControl(void*ignore);
 void setArmHeight(double height);
+void debugArm();
 void setArmPos(int pos);
 void setArmClampState(bool state);
 void toggleArmClampState();

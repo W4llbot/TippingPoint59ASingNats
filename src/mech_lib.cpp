@@ -1,19 +1,20 @@
 #include "main.h"
 
 // const double armHeights[] = {30, 415, 650};
-const double progArmHeights [] = {30, 480, 750};
-double armTarg = progArmHeights[0], armKP = 5;
+const double progArmHeights [] = {1390, 2150, 2600};
+double armTarg = progArmHeights[0], armKP = 1;
 bool tiltState = LOW, armClampState = LOW;
 double intakeTarg = 0;
 
 void armControl(void*ignore) {
   Motor arm(armPort);
   arm.set_brake_mode(MOTOR_BRAKE_BRAKE);
+  ADIAnalogIn armPot(armPotPort);
   ADIDigitalOut armClamp(armClampPort);
   ADIDigitalIn armLimit(armLimitPort);
 
   while(true) {
-    double armError = armTarg - arm.get_position();
+    double armError = armTarg - armPot.get_value();
     arm.move(armError*armKP);
 
     if(armLimit.get_new_press()) armClampState = true;
@@ -26,6 +27,11 @@ void armControl(void*ignore) {
 
 void setArmPos(int pos) {armTarg = progArmHeights[pos];}
 void setArmHeight(double height) {armTarg = height;}
+// double getArmHeight() {return armTarg;}
+void debugArm() {
+  Motor arm(armPort);
+  printf("armTarg: %.2f, armVal: %.2f", armTarg, arm.get_position());
+}
 void setArmClampState(bool state) {armClampState = state;}
 void toggleArmClampState() {armClampState = !armClampState;}
 void waitArmClamp(double cutoff) {waitUntil(armClampState, cutoff);}

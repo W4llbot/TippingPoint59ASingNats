@@ -331,6 +331,7 @@ void PPControl(void * ignore){
     // debugging
 
     if(count % 10 == 0) printf("\tTargV: %4.5f\tMeasuredv: %4.5f", targV*inPerMsToRPM, measuredV*inPerMsToRPM);
+    if(count % 10 == 0) debugArm();
     count++;
     if(count % 10 == 0) printf("\n");
 
