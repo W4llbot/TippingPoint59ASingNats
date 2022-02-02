@@ -105,11 +105,12 @@ void autonomous() {
 	// std::vector<Node> moveToPlatform1 = {position, Node(40, 93)};
 	// basePP(moveToPlatform1, 1-smooth, smooth, 12);
 	// waitPP(2000);
-
+	setCurvK(0.00000000000000012);
 	// setMaxRPMV(300);
 	std::vector<Node> moveToRings1 = {position, Node(23, 76), Node(58, 81)};
 	basePP(moveToRings1, 1-smooth, smooth, 10);
 	waitPP(2000);
+	setCurvK(0.0000000000000002);
 
 	// delay(1000);
 
@@ -135,7 +136,7 @@ void autonomous() {
 	baseTurn(0, 0.17);
 	waitTurn(0);
 
-  baseMove(-16);
+  baseMove(-17);
   waitPP(2000);
 
   setArmPos(0);
@@ -152,7 +153,7 @@ void autonomous() {
 	waitPP(2000);
 	delay(200);
 
-	setArmHeight(100);
+	setArmHeight(1500);
   std::vector<Node> disposeGoal = {position, Node(71, 20)};
 	basePP(disposeGoal, 1-smooth, smooth, 14);
 	waitPP(2000);
@@ -180,7 +181,7 @@ void autonomous() {
 	baseMove(81, 22, false);
 	waitPP(1000);
 
-	baseTurn(calcBaseTurn(81, 56, false), 0.15);
+	baseTurn(calcBaseTurn(81, 56, false), 0.145);
 	waitTurn(1000);
 
 	setArmClampState(false);
@@ -252,7 +253,9 @@ void autonomous() {
 	baseTurn(calcBaseTurn(60, 89, false));
 	waitTurn(2000);
 
-	setCurvK(0.000000000000001);
+	setCurvK(0.000000000000000171);
+					 // 0.000000000000000171
+
 	setArmClampState(false);
 	// baseMove(71, 91, false);
 	basePP({position, Node(60, 89)}, 1-smooth, smooth, 14);
@@ -295,14 +298,14 @@ void autonomous() {
 	waitTurn(2000);
 
 	setArmClampState(false);
-	baseMove(85, 115, false);
+	baseMove(86, 111, false);
 	waitPP(2000);
 
 	setArmHeight(200);
 	baseMove(98, 92, true);
 	waitPP(2000);
 
-	baseTurn(calcBaseTurn(98, 1, false));
+	baseTurn(calcBaseTurn(98, 1, false), 0.145);
 	waitTurn(2000);
 
 	setArmPos(1);
