@@ -93,7 +93,7 @@ void autonomous() {
 
 	setMaxRPMV(500);
 	std::vector<Node> initEdgeTurn = {position, Node(14, 58)};
-	double smooth = 0.75;
+	double 		smooth = 0.75;
 	basePP(initEdgeTurn, 1-smooth, smooth, 20);
 
 	// waitArmClamp(15000);
@@ -250,7 +250,7 @@ void autonomous() {
 	waitPP(2000);
 
 	enableBase(true, true);
-	baseTurn(calcBaseTurn(60, 89, false));
+	baseTurn(calcBaseTurn(60, 89, false), 0.16);
 	waitTurn(2000);
 
 	setCurvK(0.000000000000000171);
@@ -301,7 +301,7 @@ void autonomous() {
 	baseMove(86, 111, false);
 	waitPP(2000);
 
-	setArmHeight(200);
+	setArmHeight(1500);
 	baseMove(98, 92, true);
 	waitPP(2000);
 
