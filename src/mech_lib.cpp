@@ -1,7 +1,7 @@
 #include "main.h"
 
 // const double armHeights[] = {30, 415, 650};
-const double progArmHeights [] = {1370, 2150, 2600};
+const double progArmHeights [] = {1320, 2150, 2600};
 double armTarg = progArmHeights[0], armKP = 1.5;
 bool tiltState = LOW, armClampState = LOW;
 double intakeTarg = 0;
@@ -21,7 +21,7 @@ void armControl(void*ignore) {
     // if(arm)
     armClamp.set_value(armClampState);
 
-    // printf("armtarg: %.2f\t currpos: %.2f\n", armTarg, arm.get_position());
+    printf("armtarg: %.2f\t currpos: %d\n", armTarg, armPot.get_value());
     delay(dT);
   }
 }

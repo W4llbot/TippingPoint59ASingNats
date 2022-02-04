@@ -107,8 +107,8 @@ void autonomous() {
 	// waitPP(2000);
 	setCurvK(0.00000000000000012);
 	// setMaxRPMV(300);
-	std::vector<Node> moveToRings1 = {position, Node(58, 81)}; //, Node(23, 76)
-	basePP(moveToRings1, 1-smooth, smooth, 18);
+	std::vector<Node> moveToRings1 = {position, Node(23, 76), Node(58, 81)};
+	basePP(moveToRings1, 1-smooth, smooth, 10);
 	waitPP(2000);
 	setCurvK(0.0000000000000002);
 
@@ -144,7 +144,7 @@ void autonomous() {
   baseTurn(calcBaseTurn(48, 57, false));
   waitTurn(2000);
   setTiltState(false);
-  delay(600);
+  delay(300);
 
 
 	setCurvK(0.0000000000000002);
@@ -154,7 +154,7 @@ void autonomous() {
 	delay(200);
 
 	setArmHeight(1500);
-  std::vector<Node> disposeGoal = {position, Node(71, 21)};
+  std::vector<Node> disposeGoal = {position, Node(71, 20)};
 	basePP(disposeGoal, 1-smooth, smooth, 14);
 	waitPP(2000);
 
@@ -203,21 +203,21 @@ void autonomous() {
 
 	printf("\n2 goals in %.2f\n", millis() - start);
 
-	baseMove(-5);
+	baseMove(-8);
 	waitPP(1000);
 
 	setArmPos(0);
-	baseTurn(calcBaseTurn(36, 94, false));
+	baseTurn(calcBaseTurn(36, 92, false));
 	waitTurn(2000);
 
 	setArmClampState(false);
-	baseMove(45, 94, false);
+	baseMove(47, 92, false);
 	waitPP(3000);
 	setArmPos(2);
 	delay(300);
 
 	setTiltState(false);
-	delay(500);
+	delay(300);
 
 	enableBase(true, false);
 	baseTurn(calcBaseTurn(33, 110, false));
@@ -245,12 +245,12 @@ void autonomous() {
 
 	setTiltState(false);
 	setArmPos(0);
-	basePP({position, Node(-1, 90)}, 1-smooth, smooth, 14, true);
+	basePP({position, Node(0, 90)}, 1-smooth, smooth, 14, true);
 	// baseMove(0, 92, true);
 	waitPP(2000);
 
 	enableBase(true, true);
-	baseTurn(calcBaseTurn(58, 91, false), 0.16);
+	baseTurn(calcBaseTurn(60, 89, false), 0.16);
 	waitTurn(2000);
 
 	setCurvK(0.000000000000000171);
@@ -258,27 +258,27 @@ void autonomous() {
 
 	setArmClampState(false);
 	// baseMove(71, 91, false);
-	basePP({position, Node(58, 91)}, 1-smooth, smooth, 14);
+	basePP({position, Node(60, 89)}, 1-smooth, smooth, 14);
 	waitPP(3000);
 
 	setCurvK(0.0000000000000002);
 
 	setArmPos(2);
-	delay(600);
+	delay(500);
 	// basePP({position, Node(55, 91)}, 1-smooth, smooth, 14, true);
 	// waitPP(2000);
 
 	enableBase(true, true);
-	baseTurn(calcBaseTurn(55, 110, false));
+	baseTurn(calcBaseTurn(60, 110, false));
 	waitTurn(2000);
 
-	baseMove(60, 97, false);
+	baseMove(60, 99, false);
 	waitPP(1000);
 
 	setArmPos(1);
 	delay(100);
 	setArmClampState(false);
-	delay(500);
+	delay(300);
 	printf("\n4 goals in %.2f\n", millis() - start);
 
 	baseMove(60, 90, true);
@@ -298,19 +298,19 @@ void autonomous() {
 	waitTurn(2000);
 
 	setArmClampState(false);
-	baseMove(84, 112, false);
+	baseMove(86, 111, false);
 	waitPP(2000);
 
 	setArmHeight(1500);
-	baseMove(95, 95, true);
+	baseMove(98, 92, true);
 	waitPP(2000);
 
-	baseTurn(calcBaseTurn(95, 2, false));
+	baseTurn(calcBaseTurn(98, 1, false), 0.145);
 	waitTurn(2000);
 
 	setArmPos(1);
 	// baseMove(98, 0, false);
-	basePP({position, Node(95, 2)}, 1-smooth, smooth, 14);
+	basePP({position, Node(98, 1)}, 1-smooth, smooth, 14);
 	waitPP(4000);
 
 	enableBase(true, false);
@@ -323,6 +323,8 @@ void autonomous() {
 	controlTask.suspend();
 	delay(50);
 	park(80);
+
+
 
 
   // 48, 57
