@@ -14,7 +14,7 @@ void initialize() {
 	Motor FR(FRPort, E_MOTOR_GEARSET_06, false, E_MOTOR_ENCODER_DEGREES);
 	Motor BRU(BRUPort, E_MOTOR_GEARSET_06, true, E_MOTOR_ENCODER_DEGREES);
 	Motor BRD(BRDPort, E_MOTOR_GEARSET_06, false, E_MOTOR_ENCODER_DEGREES);
-	Motor arm(armPort, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
+	Motor arm(armPort, E_MOTOR_GEARSET_36, false, E_MOTOR_ENCODER_DEGREES);
 	Motor intake(intakePort, E_MOTOR_GEARSET_06, true, E_MOTOR_ENCODER_DEGREES);
 
 
@@ -164,6 +164,7 @@ void autonomous() {
 
 	// delay(200);
   // baseTurn(-90);
+	setArmHeight(1450);
 	baseTurn(calcBaseTurn(106, 20, true));
   waitTurn(1000);
 	setArmPos(0);
@@ -214,7 +215,7 @@ void autonomous() {
 	baseMove(47, 92, false);
 	waitPP(3000);
 	setArmPos(2);
-	delay(300);
+	delay(800);
 
 	setTiltState(false);
 	delay(300);

@@ -1,8 +1,8 @@
 #include "main.h"
 
 // const double armHeights[] = {30, 415, 650};
-const double progArmHeights [] = {1320, 2150, 2600};
-double armTarg = progArmHeights[0], armKP = 1.5;
+const double progArmHeights [] = {1360, 2150, 2600};
+double armTarg = progArmHeights[0], armKP = 1;
 bool tiltState = LOW, armClampState = LOW;
 double intakeTarg = 0;
 
@@ -15,7 +15,8 @@ void armControl(void*ignore) {
 
   while(true) {
     double armError = armTarg - armPot.get_value();
-    arm.move(armError*armKP);
+    if(armTarg == 1350) arm.move(armError * armKP - 20);
+    else arm.move(armError*armKP);
 
     if(armLimit.get_new_press()) armClampState = true;
     // if(arm)

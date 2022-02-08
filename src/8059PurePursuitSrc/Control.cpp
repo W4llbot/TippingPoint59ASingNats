@@ -28,6 +28,7 @@ void park(double s) {
 
   Imu imu (imuPort);
   imu.tare_roll();
+  setArmHeight(1200);
   // while(true) printf("imu: %.2f\n", -imu.get_roll());
 
   FL.set_brake_mode(MOTOR_BRAKE_HOLD);
@@ -47,8 +48,19 @@ void park(double s) {
   double start = millis();
 
   while(fabs(imu.get_roll()) < 21.5) delay(5);
+  setArmPos(0);
   // printf("over");
   while(fabs(imu.get_roll()) > 21.5) delay(5);
+
+  s = -50;
+  FL.move(s);
+  BLU.move(s);
+  BLD.move(s);
+  FR.move(s);
+  BRU.move(s);
+  BRD.move(s);
+
+  delay(100);
 
   FL.move(0);
   BLU.move(0);
@@ -56,6 +68,8 @@ void park(double s) {
   FR.move(0);
   BRU.move(0);
   BRD.move(0);
+
+  setTiltState(false);
   // while(true) {
   //   double error = distance(position, Node(0, 39));
   //   double speed = abscap(error * 40, 80);
