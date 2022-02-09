@@ -91,7 +91,7 @@ void autonomous() {
 	waitTurn(1000);
 
 
-	setMaxRPMV(500);
+	// setMaxRPMV(500);
 	std::vector<Node> initEdgeTurn = {position, Node(14, 58)};
 	double 		smooth = 0.75;
 	basePP(initEdgeTurn, 1-smooth, smooth, 20);
@@ -133,7 +133,7 @@ void autonomous() {
 
   printf("\n1 goal in %.2f\n", millis() - start);
 
-	baseTurn(0, 0.17);
+	baseTurn(0, 0.175);
 	waitTurn(0);
 
   baseMove(-17);
@@ -182,7 +182,7 @@ void autonomous() {
 	baseMove(81, 22, false);
 	waitPP(1000);
 
-	baseTurn(calcBaseTurn(81, 56, false), 0.145);
+	baseTurn(calcBaseTurn(81, 56, false), 0.15);
 	waitTurn(1000);
 
 	setArmClampState(false);
@@ -214,8 +214,9 @@ void autonomous() {
 	setArmClampState(false);
 	baseMove(47, 92, false);
 	waitPP(3000);
+	setArmClampState(true);
 	setArmPos(2);
-	delay(800);
+	delay(1000);
 
 	setTiltState(false);
 	delay(300);
@@ -261,6 +262,7 @@ void autonomous() {
 	// baseMove(71, 91, false);
 	basePP({position, Node(60, 89)}, 1-smooth, smooth, 14);
 	waitPP(3000);
+	setArmClampState(true);
 
 	setCurvK(0.0000000000000002);
 
@@ -295,15 +297,18 @@ void autonomous() {
 	baseMove(105, 92, false);
 	waitPP(2000);
 
-	baseTurn(calcBaseTurn(85, 110, false));
+	baseTurn(calcBaseTurn(87, 110, false));
 	waitTurn(2000);
 
 	setArmClampState(false);
-	baseMove(86, 111, false);
+	setMaxRPMV(300);
+	baseMove(87, 112, false);
 	waitPP(2000);
+	setMaxRPMV(500);
+	setArmClampState(true);
 
 	setArmHeight(1500);
-	baseMove(98, 92, true);
+	baseMove(94, 92, true);
 	waitPP(2000);
 
 	baseTurn(calcBaseTurn(98, 1, false), 0.145);

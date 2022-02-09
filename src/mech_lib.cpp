@@ -1,7 +1,7 @@
 #include "main.h"
 
 // const double armHeights[] = {30, 415, 650};
-const double progArmHeights [] = {1360, 2150, 2600};
+const double progArmHeights [] = {1355, 2150, 2600};
 double armTarg = progArmHeights[0], armKP = 1;
 bool tiltState = LOW, armClampState = LOW;
 double intakeTarg = 0;
