@@ -90,7 +90,7 @@ void autonomous() {
 	baseTurn(22);
 	waitTurn(1000);
 
-
+	setCurvK(0.00000000000001);
 	// setMaxRPMV(500);
 	std::vector<Node> initEdgeTurn = {position, Node(14, 58)};
 	double 		smooth = 0.75;
@@ -182,17 +182,17 @@ void autonomous() {
 	baseMove(81, 22, false);
 	waitPP(1000);
 
-	baseTurn(calcBaseTurn(81, 56, false), 0.15);
+	baseTurn(calcBaseTurn(81, 56, false), 0.16);
 	waitTurn(1000);
 
 	setArmClampState(false);
 	setIntake(127);
-	baseMove(81, 56, false);
+	baseMove(81, 54, false);
 	waitPP(2000);
 
 	setArmPos(2);
   std::vector<Node> moveToGoal = {position, Node(75, 72), Node(63, 100)};
-	basePP(moveToGoal, 1-smooth, smooth, 8);
+	basePP(moveToGoal, 1-smooth, smooth, 9);
 	waitPP(3000);
 
 	// baseTurn(-7);
@@ -204,15 +204,15 @@ void autonomous() {
 
 	printf("\n2 goals in %.2f\n", millis() - start);
 
-	baseMove(-8);
+	baseMove(-6);
 	waitPP(1000);
 
 	setArmPos(0);
-	baseTurn(calcBaseTurn(36, 92, false));
+	baseTurn(calcBaseTurn(36, 93, false));
 	waitTurn(2000);
 
 	setArmClampState(false);
-	baseMove(47, 92, false);
+	baseMove(47, 93, false);
 	waitPP(3000);
 	setArmClampState(true);
 	setArmPos(2);
@@ -252,7 +252,7 @@ void autonomous() {
 	waitPP(2000);
 
 	enableBase(true, true);
-	baseTurn(calcBaseTurn(60, 89, false), 0.16);
+	baseTurn(calcBaseTurn(59, 89, false), 0.16);
 	waitTurn(2000);
 
 	setCurvK(0.000000000000000171);
@@ -260,7 +260,7 @@ void autonomous() {
 
 	setArmClampState(false);
 	// baseMove(71, 91, false);
-	basePP({position, Node(60, 89)}, 1-smooth, smooth, 14);
+	basePP({position, Node(59, 89)}, 1-smooth, smooth, 14);
 	waitPP(3000);
 	setArmClampState(true);
 
@@ -272,13 +272,14 @@ void autonomous() {
 	// waitPP(2000);
 
 	enableBase(true, true);
-	baseTurn(calcBaseTurn(60, 110, false));
+	baseTurn(calcBaseTurn(58, 108, false));
 	waitTurn(2000);
 
+	setArmPos(1);
+	delay(200);
 	baseMove(60, 99, false);
 	waitPP(1000);
 
-	setArmPos(1);
 	delay(100);
 	setArmClampState(false);
 	delay(300);
@@ -288,7 +289,7 @@ void autonomous() {
 	waitPP(1000);
 
 	setArmPos(0);
-	baseTurn(calcBaseTurn(105, 92, false));
+	baseTurn(calcBaseTurn(105, 92, false), 0.145);
 	waitTurn(2000);
 
 	// baseTurn(calcBaseTurn(92, 95, false));
@@ -297,12 +298,12 @@ void autonomous() {
 	baseMove(105, 92, false);
 	waitPP(2000);
 
-	baseTurn(calcBaseTurn(87, 110, false));
+	baseTurn(calcBaseTurn(85, 110, false), 0.15);
 	waitTurn(2000);
 
 	setArmClampState(false);
 	setMaxRPMV(300);
-	baseMove(87, 112, false);
+	baseMove(85, 112, false);
 	waitPP(2000);
 	setMaxRPMV(500);
 	setArmClampState(true);
@@ -320,7 +321,7 @@ void autonomous() {
 	waitPP(4000);
 
 	enableBase(true, false);
-	baseTurn(calcBaseTurn(0, position.getY(), false));
+	baseTurn(calcBaseTurn(0, position.getY()+2, false));
 	waitTurn(2000);
 
 	setArmPos(0);
@@ -328,7 +329,7 @@ void autonomous() {
 
 	controlTask.suspend();
 	delay(50);
-	park(80);
+	park(70);
 
 
 

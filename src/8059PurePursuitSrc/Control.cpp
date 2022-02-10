@@ -300,8 +300,8 @@ void PPControl(void * ignore){
         targVL = enableL ? abscap(errorBearing*turnKP, globalMaxV) : 0;
         targVR = -targVL;
       }else {
-        targVL = enableL ? abscap(errorBearing*0.2, globalMaxV) : 0;
-        targVR = enableR ? -abscap(errorBearing*0.2, globalMaxV) : 0;
+        targVL = enableL ? abscap(errorBearing*0.25, globalMaxV) : 0;
+        targVR = enableR ? -abscap(errorBearing*0.25, globalMaxV) : 0;
       }
 
 
