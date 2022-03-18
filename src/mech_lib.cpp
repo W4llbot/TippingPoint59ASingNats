@@ -1,7 +1,7 @@
 #include "main.h"
 
 // const double armHeights[] = {30, 415, 650};
-const double progArmHeights [] = {1355, 2150, 2600};
+const double progArmHeights [] = {1150, 2150, 2600};
 double armTarg = progArmHeights[0], armKP = 1;
 bool tiltState = LOW, armClampState = LOW;
 double intakeTarg = 0;
@@ -15,14 +15,17 @@ void armControl(void*ignore) {
 
   while(true) {
     double armError = armTarg - armPot.get_value();
-    if(armTarg == 1350) arm.move(armError * armKP - 20);
+    if(armTarg == 1350) {
+      if(armError < 0) arm.move(armError * armKP - 20);
+      else arm.move(-20);
+    }
     else arm.move(armError*armKP);
 
     if(armLimit.get_new_press()) armClampState = true;
     // if(arm)
     armClamp.set_value(armClampState);
 
-    printf("armtarg: %.2f\t currpos: %d\n", armTarg, armPot.get_value());
+    // printf("armtarg: %.2f\t currpos: %d\n", armTarg, armPot.get_value());
     delay(dT);
   }
 }
@@ -32,7 +35,7 @@ void setArmHeight(double height) {armTarg = height;}
 // double getArmHeight() {return armTarg;}
 void debugArm() {
   Motor arm(armPort);
-  printf("armTarg: %.2f, armVal: %.2f", armTarg, arm.get_position());
+  // printf("armTarg: %.2f, armVal: %.2f", armTarg, arm.get_position());
 }
 void setArmClampState(bool state) {armClampState = state;}
 void toggleArmClampState() {armClampState = !armClampState;}

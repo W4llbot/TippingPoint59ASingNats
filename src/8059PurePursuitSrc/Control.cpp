@@ -95,40 +95,6 @@ void drive(double l, double r){
   BRU.move(r);
   BRD.move(r);
 }
-/*Motor FL (FLPort);
-Motor BLU (BLUPort);
-Motor BLD (BLDPort);
-Motor FR (FRPort);
-Motor BRU (BRUPort);
-Motor BRD (BRDPort);
-
-Imu imu (imuPort);
-imu.tare_roll();
-// while(true) printf("imu: %.2f\n", -imu.get_roll());
-
-FL.set_brake_mode(MOTOR_BRAKE_HOLD);
-BLU.set_brake_mode(MOTOR_BRAKE_HOLD);
-BLD.set_brake_mode(MOTOR_BRAKE_HOLD);
-FR.set_brake_mode(MOTOR_BRAKE_HOLD);
-BRU.set_brake_mode(MOTOR_BRAKE_HOLD);
-BRD.set_brake_mode(MOTOR_BRAKE_HOLD);
-
-FL.move(l);
-BLU.move(l);
-BLD.move(l);
-FR.move(r);
-BRU.move(r);
-BRD.move(r);
-
-while(-imu.get_roll() < 20) delay(5);
-while(-imu.get_roll() > 20) delay(5);
-
-FL.move(0);
-BLU.move(0);
-BLD.move(0);
-FR.move(0);
-BRU.move(0);
-BRD.move(0);*/
 
 void resetPP() {
   closestPointIndex = 0;
@@ -169,7 +135,8 @@ double calcBaseTurn(double x, double y, bool rev) {
 // }
 
 void waitTurn(double cutoff) {
-  while(fabs(targBearing - bearing)*toDeg > TURN_LEEWAY || fabs(measuredVL*inPerMsToRPM) > 5 || fabs(measuredVR*inPerMsToRPM) > 5) delay(5);
+  double start = millis();
+  while((fabs(targBearing - bearing)*toDeg > TURN_LEEWAY || fabs(measuredVL*inPerMsToRPM) > 5 || fabs(measuredVR*inPerMsToRPM) > 5) && millis() - start < cutoff) delay(5);
   printf("I stopped :)\n\n");
 }
 
@@ -182,7 +149,7 @@ void baseMove(double dis) {
   std::vector<Node> straightPath = {position, position + Node(dis*sin(bearing), dis*cos(bearing))};
 
   double smooth = 0.75;
-	basePP(straightPath, 1-smooth, smooth, 10, dis < 0);
+	basePP(straightPath, 1-smooth, smooth, 15, dis < 0);
 }
 
 void baseMove(double x, double y, bool rev) {
@@ -195,14 +162,15 @@ void baseMove(double x, double y) {
 
 void waitPP(double cutoff){
   // int stopTime;
+  double start = millis();
   Node target = path.getSmoWp(path.getN()-1);
-  while((distance(position, target) >= LEEWAY || fabs(measuredV*inPerMsToRPM) > 2)) delay(5);
+  while((distance(position, target) >= LEEWAY || fabs(measuredV*inPerMsToRPM) > 2) && millis() - start < cutoff) delay(5);
 
   resetPP();
   enablePP = false;
   reverse = false;
 
-  printf("I stopped :)\n\n");
+  printf("Stopped!!!\n\n");
 }
 
 void PPControl(void * ignore){
